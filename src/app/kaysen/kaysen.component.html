@@ -1,0 +1,45 @@
+<div *ngIf="!isLogged; else logged">
+    <!-- <app-login></app-login> -->
+     <router-outlet></router-outlet>
+    <!-- <app-login></app-login> -->
+</div>
+<ng-template #logged>
+    <app-kaysen-encabezado></app-kaysen-encabezado>
+    <section class="global-content">
+        <app-kaysen-menu class="toggle-menu shadow" [ngClass]="{'close':collapseMenu}"></app-kaysen-menu>
+        <div class="section-content" [ngClass]="{'full':collapseMenu}">
+            <router-outlet></router-outlet>
+            <!-- soporte -->
+            <div class="support-button">
+                <div class="section-msg-support" [ngClass]="{'hide-support':!showSupport}">
+                    <h4 class="title-support">Soporte</h4>
+                    <form [formGroup]="formSupport">
+                        <mat-form-field appearance="outline" class="input-full-width">
+                          <mat-label>Nombre</mat-label>
+                          <input matInput placeholder="Nombre" formControlName="name">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput placeholder="Teléfono" formControlName="phone">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                          <mat-label>Email</mat-label>
+                          <input matInput placeholder="Email" formControlName="mail">
+                        </mat-form-field>
+                        <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                            <mat-label>Mensaje</mat-label>
+                            <textarea matInput formControlName="message" placeholder="Mensaje"></textarea>
+                        </mat-form-field>
+                        <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" (click)="sendMessage()">Enviar</button>
+                    </form>
+                </div>
+                <button type="button" class="btn-support" (click)="showSupport=!showSupport"><span class="material-icons">headset_mic</span></button>
+            </div>
+        </div>
+    </section>
+    <!-- <app-footer></app-footer> -->
+    <!-- logueado -->
+</ng-template>
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>

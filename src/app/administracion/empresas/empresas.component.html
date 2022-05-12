@@ -1,0 +1,99 @@
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+          Empresas
+        </div>
+        <div class="content-table">
+          <div class="toolbar-table" *ngIf="permissions != null">
+            <div class="input-search-mobile" [ngClass]="{'open':searchResponsive}">
+              <input type="text" class="search-input-table" placeholder="Buscar" (keyup)="applyFilter($event.target.value)">
+              <span class="material-icons" (click)="openSearch()">search</span>
+            </div>
+            <div class="input-search-desktop">
+              <input type="text" class="search-input-table" placeholder="Buscar" (keyup)="applyFilter($event.target.value)">
+            </div>
+            <div class="toolbar-options">
+              <button class="btn-bold" *ngIf="permissions.create" (click)="setOption('create')" title="Crear">
+                  <span class="material-icons">add</span>
+              </button>
+              <button class="btn-bold" *ngIf="permissions.update" (click)="setOption('active')" title="Activar">
+                  <span class="material-icons">done</span>
+              </button>
+              <button class="btn-bold" *ngIf="permissions.update" (click)="setOption('inactive')" title="Inactivar">
+                  <span class="material-icons">not_interested</span>
+              </button>
+              <button class="btn-bold" *ngIf="permissions.view" (click)="setOption('refresh')" title="Actualziar">
+                  <span class="material-icons">cached</span>
+              </button>
+            </div>
+          </div>
+          <div class="section-table first-action">
+            <div class="no-records" *ngIf="empresas.length == 0" >
+              <span>No hay registros</span>
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort class="table-large">
+                <!-- Position Column -->
+                <!-- view-->
+                <ng-container matColumnDef="view" >
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <button class="btn-bold" (click)="option('view',element.empresa_id)" *ngIf="permissions.view" title="Ver">
+                            <span class="material-icons">visibility</span>
+                        </button>
+                    </td>
+                </ng-container>
+                <!-- codigo y checkbox -->
+                <ng-container matColumnDef="empresa_id" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="cell-codigo"> Código </th>
+                  <td mat-cell *matCellDef="let element"> 
+                      <mat-checkbox [checked]="element.selected" *ngIf="permissions.update" [(ngModel)]="element.selected"></mat-checkbox>
+                      {{element.empresa_id}}
+                  </td>
+                </ng-container>
+                <!-- Empresa -->
+                <ng-container matColumnDef="empresa_nombrecorto">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </th>
+                  <td mat-cell *matCellDef="let element"> {{element.empresa_nombrecorto}} </td>
+                </ng-container>
+                
+                <!-- Tipo relacion -->
+                <ng-container matColumnDef="empresa_tiporelacion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Relacion </th>
+                    <td mat-cell *matCellDef="let element"> {{element.empresa_tiporelacion}} </td>
+                </ng-container>
+                <!-- Email -->
+                <ng-container matColumnDef="empresa_correo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                  <td mat-cell *matCellDef="let element"> {{element.empresa_correo}} </td>
+              </ng-container>
+                <!-- Estado ubicacion -->
+                <ng-container matColumnDef="estado_codigo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                  <td mat-cell *matCellDef="let element"> {{element.estado_codigo}} </td>
+                </ng-container>
+                <!-- Actions -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                    <td mat-cell *matCellDef="let element">
+                      <button *ngIf="element.empresa_estado == 1 && permissions.update" class="item-actions item-active" (click)="updateStatus('inactive',element.empresa_id)" title="Activo">
+                          <span class="material-icons">toggle_on</span>
+                      </button>
+                      <button *ngIf="element.empresa_estado == 0 && permissions.update" class="item-actions item-inactive" (click)="updateStatus('active',element.empresa_id)" title="Inactivo">
+                          <span class="material-icons">toggle_off</span>
+                      </button>
+                      <button class="item-actions" (click)="option('update',element.empresa_id)" *ngIf="permissions.update" title="Editar">
+                        <span class="material-icons">create</span>
+                      </button>
+                    </td>
+                </ng-container>                 
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[50, 100, 500]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>

@@ -1,0 +1,236 @@
+<div class="content" *ngIf="userProfile == 'comun'">
+    <div *ngIf="viewChangePassword" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span>Por su seguridad recomendamos cambiar la contraseña de su cuenta.</span><button class="btn btn-danger" (click)="changePassword()">Cambiar contraseña</button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeAlert()"><span aria-hidden="true">&times;</span></button>
+    </div>
+
+    <div class="row nm-row pb-4">
+        <div class="sec-btn-home sec-btn-home col-md-3 col-sm-6 pb-3">
+            <a href="#" class="btn-home">
+                <img src="./../../../assets/images/home.png" alt="Mantenimiento">
+                <div>
+                    <h4>Tramites en proceso</h4>
+                    <span [ngClass]="{'amount-pending' : mantenimiento>0}">50</span>
+                </div>
+            </a>
+        </div>
+        <div class="sec-btn-home col-md-3 col-sm-6 pb-3">
+            <a href="" class="btn-home">
+                <img src="./../../../assets/images/servicios.png" alt="Servicios">
+                <div>
+                    <h4>Tramites cerrado este mes</h4>
+                    <span>10</span>
+                    <!-- <span>{{servicios | currency}}</span> -->
+                </div>
+            </a>
+        </div>
+        <div class="sec-btn-home col-md-3 col-sm-6 pb-3">
+            <a href="#" class="btn-home">
+                <img src="./../../../assets/images/derrama.png" alt="Derrama">
+                <div>
+                    <h4>Asesores</h4>
+                    <span>20</span>
+                </div>
+            </a>
+        </div>
+        <div class="sec-btn-home col-md-3 col-sm-6 pb-3">
+            <a href="/transacciones/pendientes" class="btn-home">
+                <img src="./../../../assets/images/multa.png" alt="Multa">
+                <div>
+                    <h4>Digitadores</h4>
+                    <span>2</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="widgets">
+        <!-- saldo -->
+        <div class="widget-item shadow">
+            <div class="content-widget">
+                <div class="title-widget">
+                    Balance
+                </div>
+                <div class="widget-detail" [ngClass]="{'red': saldo < 0,'blue': saldo > 0}">
+                    $ {{saldo}} 
+                </div>
+            </div>
+            <div class="icon-widget">
+                <span class="material-icons">attach_money</span>
+            </div>
+        </div>
+        <!-- Proximo vencimiento -->
+        <div class="widget-item shadow">
+            <div *ngIf="valorPagar==0" class="content-widget">
+                <div class="title-widget">
+                    Proximo Pago
+                </div>
+                <div class="widget-detail">
+                    {{proximoPago}}
+                </div>
+            </div>
+            <div *ngIf="valorPagar>0" class="content-widget">
+                <a routerLink="/transacciones/pendientes">
+                    <div class="title-widget">
+                        Cantidad a pagar
+                    </div>
+                    <div class="widget-detail">
+                        $ {{valorPagar}}
+                    </div>
+                </a>
+            </div>
+            <div *ngIf="valorPagar==0" class="icon-widget">
+                <span class="material-icons">event</span>
+            </div>
+            <div *ngIf="valorPagar>0" class="icon-widget">
+                <span class="material-icons">local_atm</span>
+            </div>
+        </div>
+        <!-- Notificaciones -->
+        <div class="widget-item shadow pointer" routerLink="/administracion/comunicados">
+            <div class="content-widget">
+                <div class="title-widget">
+                    Mensajes
+                </div>
+                <div class="widget-detail">
+                    0
+                </div>
+            </div>
+            <div class="icon-widget">
+                <span class="material-icons">insert_comment</span>
+            </div>
+        </div>
+    </div>
+    <div class="transacciones">
+        <div class="card bg-white">
+            <div class="card-header">
+              Ultimas transacciones
+            </div>
+            <ul class="list-group list-group-flush" *ngIf="transacciones != null; else noresult">
+                <li class="list-group-item" *ngFor="let transaccion of transacciones">
+                    <div class="detail-transaction">
+                        {{transaccion.tx_referencia}} - {{transaccion.propiedad_nombre}} - {{transaccion.complejo_nombre}}
+                        <span class="date-transaction">{{transaccion.tx_fcreacion}}</span>
+                    </div>
+                    <div class="mount-transaction">${{transaccion.tx_valorpagado}}
+                        <span class="state" [ngClass]="{'green':transaccion.tx_estado == 'A','red':transaccion.tx_estado != 'A'}">
+                            <div *ngIf="transaccion.tx_estado == 'A'">Aprobada</div>
+                            <div *ngIf="transaccion.tx_estado == 'R'">Rechazada</div>
+                            <div *ngIf="transaccion.tx_estado == 'F'">Congelada</div>
+                            <div *ngIf="transaccion.tx_estado == 'V'">Validación</div>
+                        </span>
+                    </div>
+                </li>
+                <!-- <li class="list-group-item">
+                    <div class="detail-transaction">
+                        Mantenimiento - Prop. 101 - Coral Beach
+                        <span class="date-transaction">30-01-2020</span>
+                    </div>
+                    <div class="mount-transaction">$ 100</div>
+                </li>
+                <li class="list-group-item">
+                    <div class="detail-transaction">
+                        Mantenimiento - Prop. 101 - Coral Beach
+                        <span class="date-transaction">30-01-2020</span>
+                    </div>
+                    <div class="mount-transaction">$ 100</div>
+              </li> -->
+            </ul>
+            <ng-template #noresult>
+                <li class="no-result">No hay transacciones...</li>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+
+<div class="content content-transparent" *ngIf="userProfile == 'admin'">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Clientes</h5>
+                            <h3>{{active_customers}}</h3>
+                            <p class="mb-0 text-widget-secundary-section">
+                                <!-- <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> {{inactive_customers}}</span> -->
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"></i> {{inactive_customers}}</span>
+                                <span class="text-widget-secundary">Inactivos</span>  
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-lg-6 col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-cart-plus widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Orders">Operaciones</h5>
+                            <h3>{{operations}}</h3>
+                            <p class="mb-0 text-widget-secundary-section">
+                                <span class="text-danger me-2"><i class="mdi mdi-arrow-down-bold"></i>{{pendingTransactions}}</span>
+                                <span class="text-widget-secundary">Pendientes</span>
+                            </p>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-lg-6 col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Transacciones</h5>
+                            <h3>$ {{amountTransactions}}</h3>
+                            <!-- <p class="mb-0 text-widget-secundary-section">
+                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> {{inactive_customers}}</span>
+                                <span class="text-widget-secundary">Pendientes</span>  
+                            </p> -->
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-lg-6 col-sm-6">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Fee</h5>
+                            <h3>$ {{fee}}</h3>
+                            <!-- <p class="mb-0 text-widget-secundary-section">
+                                <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> {{inactive_customers}}</span>
+                                <span class="text-widget-secundary">Inactivos</span>  
+                            </p> -->
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+            </div> <!-- end row -->
+        </div>
+        <!-- <div class="col-md-6">
+            <div class="chart-home">
+                <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [plugins]="barChartPlugins"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType">
+                </canvas>
+            </div>
+        </div> -->
+
+    </div>
+</div>
+<div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>

@@ -1,0 +1,117 @@
+<!-- LOGIN -->
+<div *ngIf="view == 'view'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <div class="row">
+            <div class="col-md-6">
+                <dt>Nombre:</dt>
+                <dd>{{producto.producto_nombre}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Valor total:</dt>
+                <dd>{{producto.producto_valor | currency}}</dd>
+            </div>
+            <div class="col-md-3">
+                <dt>Impuesto:</dt>
+                <dd>{{producto.producto_impuesto}} %</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Recurrente:</dt>
+                <dd *ngIf="producto.producto_recurrente === 0">No</dd>
+                <dd *ngIf="producto.producto_recurrente === 1">Si</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Este producto pertenece al complejo:</dt>
+                <dd>{{producto.complejo_nombre}}</dd>
+            </div>
+            <div class="col-md-12">
+                <dt>Descripción corta:</dt>
+                <dd>{{producto.producto_descripcioncorta}}</dd>
+            </div>
+            <div class="col-md-12">
+                <dt>Descripción larga:</dt>
+                <dd>{{producto.producto_descripcion}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Estado:</dt>
+                <dd *ngIf="producto.producto_estado == 1">Activo</dd>
+                <dd *ngIf="producto.producto_estado == 0">Inactivo</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Creado por:</dt>
+                <dd>{{producto.persona_creacion}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Fecha de creación:</dt>
+                <dd>{{producto.producto_fcreacion}}</dd>
+            </div>
+            <!-- <h4 class="subtitle-1">Porcentaje de Participación de la propiedad</h4> -->
+        </div>
+    </mat-dialog-content>
+</div>
+<div *ngIf="view == 'create' || view == 'update'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <form [formGroup]="formProducto">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Nombre <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="producto_nombre">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <label class="label-mat-form">Valor Neto<span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="producto_valor" [mask]="maskMoney" prefix="$ " (keyup)="calculateProductValue()" (keydown)="calculateProductValue()">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <label class="label-mat-form">Impuesto <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="producto_impuesto"  mask="percent" suffix=" %" (keyup)="calculateProductValue()" (keydown)="calculateProductValue()">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 p-3">
+                    <h4 class="subtitle-1">Valor total del producto:
+                        <span class="text-msg" *ngIf="valorProductoBoolean">$ {{valorProductoTotal}}</span>
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <label class="label-mat-form">Producto recurrente</label><br>
+                    <mat-checkbox class="example-margin" formControlName="producto_recurrente" (change)='recurrente()'>Recurrente</mat-checkbox>
+                </div>
+                <div class="col-md-8">
+                    <label class="label-mat-form">Complejo <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="complejo_id" (selectionChange)="onChange($event)">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="option.codigo" *ngFor="let option of complejos">{{option.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                    <label class="label-mat-form">Descripción Corta <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <textarea matInput formControlName="producto_descripcioncorta" placeholder="Descripción corta"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                    <label class="label-mat-form">Descripción Larga </label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <textarea matInput style="min-height:100px;" formControlName="producto_descripcion" placeholder="Descripción Larga"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button *ngIf="view == 'create'" mat-button class="btn btn-green" style="padding:8px 10px;" (click)="onSubmit()">Guardar</button>
+          <button *ngIf="view == 'update'" mat-button class="btn btn-green" style="padding:8px 10px;" (click)="onSubmitUpdate()">Guardar</button>
+          <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+        </div>
+    </div>
+</div>

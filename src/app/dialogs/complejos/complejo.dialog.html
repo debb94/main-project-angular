@@ -1,0 +1,115 @@
+<!-- LOGIN -->
+<div *ngIf="view == 'view'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <div class="row">
+            <div class="col-md-6">
+                <dt>Nombre:</dt>
+                <dd>{{complejo.nombre}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Tipo de complejo:</dt>
+                <dd>{{complejo.complejo_tipo}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Empresas administración:</dt>
+                <dd>{{complejo.empresa_nombrecorto}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Pais:</dt>
+                <dd>{{complejo.pais}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Estado:</dt>
+                <dd>{{complejo.estado}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Ciudad:</dt>
+                <dd>{{complejo.ciudad}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Status:</dt>
+                <dd *ngIf="complejo.status == 1">Activo</dd>
+                <dd *ngIf="complejo.status == 0">Inactivo</dd>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>
+<div *ngIf="view == 'create' || view == 'update'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <form [formGroup]="formComplejo">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Nombre <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="nombre">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Tipo de Complejo <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="complejo_tipo">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="tipo.codigo" *ngFor="let tipo of tipoComplejos">{{tipo.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Empresa <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="empresa">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="empresa.codigo" *ngFor="let empresa of empresas">{{empresa.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Pais <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="pais" (selectionChange)="onChange($event)">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="pais.codigo" *ngFor="let pais of paises">{{pais.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Estado <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="estado"  (selectionChange)="onChange($event)">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="estado.codigo" *ngFor="let estado of estados">{{estado.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Ciudad <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="ciudad">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="ciudad.codigo" *ngFor="let ciudad of ciudades">{{ciudad.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Status <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="status">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="status.codigo" *ngFor="let status of status">{{status.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button mat-button *ngIf="view == 'create'" class="btn btn-green" style="padding:8px 10px;" (click)="onSubmit()">Guardar</button>
+          <button mat-button *ngIf="view == 'update'" class="btn btn-green" style="padding:8px 10px;" (click)="onSubmitUpdate()">Guardar</button>
+          <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+        </div>
+    </div>
+</div>

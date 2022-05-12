@@ -1,0 +1,97 @@
+<!-- LOGIN -->
+<div *ngIf="view == 'view'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <div class="row">
+            <div class="col-md-6">
+                <dt>Nombre:</dt>
+                <dd>{{usuarioEmpresa.nombre_completo}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Usuario:</dt>
+                <dd>{{usuarioEmpresa.usuario_username}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Empresa:</dt>
+                <dd>{{usuarioEmpresa.empresa_nombrecorto}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Creado por:</dt>
+                <dd>{{usuarioEmpresa.creadopor}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Fecha creación:</dt>
+                <dd>{{usuarioEmpresa.usuarioempresa_fcreacion}}</dd>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>
+<div *ngIf="view == 'update'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <form [formGroup]="formUsuariosEmpresas">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Usuario <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="usuario_id">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="usuario.codigo" *ngFor="let usuario of usuarios">{{usuario.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Empresa <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="empresa_id">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="empresa.codigo" *ngFor="let empresa of empresas">{{empresa.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button mat-button class="btn btn-green" style="padding:8px 10px;" (click)="onSubmitUpdate()">Guardar</button>
+          <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+        </div>
+    </div>
+</div>
+<div *ngIf="view == 'create'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <form [formGroup]="formUsuariosEmpresas">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Usuario <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="usuario_id">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="usuario.codigo" *ngFor="let usuario of usuarios">{{usuario.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Empresa <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="empresa_id">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="empresa.codigo" *ngFor="let empresa of empresas">{{empresa.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <div class="text-center col-12">
+          <button mat-button class="btn btn-green" style="padding:8px 10px;" (click)="onSubmit()">Guardar</button>
+          <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+        </div>
+    </div>
+</div>

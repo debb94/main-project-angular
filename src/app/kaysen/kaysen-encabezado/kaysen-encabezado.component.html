@@ -1,0 +1,22 @@
+<header class="shadow">
+    <div class="logo-dashboard">
+        <a [routerLink]="['/']">
+            <img src="assets/images/logo-webtronick2.png" alt="webtronick" width="140px">
+        </a>
+    </div>
+    <div>
+        <button class="btn-menu" (click)="toggleMenu()">
+            <span class="point-menu"></span>
+        </button>
+    </div>
+    <div class="info-account">
+        <div class="account">
+            <span>Hola,</span>
+            <b class="name-user">{{user}}</b>
+        </div>
+        <div class="options-header">
+            <button (click)="closeSession()" class="close-session nv-m">Cerrar sesión</button>
+            <span class="material-icons nv-d" (click)="closeSession()">exit_to_app</span>
+        </div>
+    </div>
+</header>

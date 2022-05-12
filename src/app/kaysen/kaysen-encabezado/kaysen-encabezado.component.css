@@ -1,0 +1,93 @@
+header{
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 1002;
+    width: 100%;
+    background: white;
+    min-height:50px;
+}
+.logo-dashboard img {
+    margin: 5px 20px;
+}
+.btn-menu{
+    background: transparent;
+    border: 1px solid rgba(222, 222, 222, 0.29);
+    border-radius: 4px;
+    line-height: 30px;
+    height: 30px;
+    outline: none;
+    box-shadow: 0px 0px 8px 0px rgba(142, 142, 142, 0.15);
+}
+span.point-menu {
+    display: block;
+    width: 20px;
+    height: 3px;
+    border-radius: 1.5px;
+    background: #808080;
+    margin: 0px 8px;
+}
+span.point-menu:after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 3px;
+    border-radius: 1.5px;
+    background: #808080;
+    position: relative;
+    top: 4px;
+}
+span.point-menu:before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 3px;
+    border-radius: 1.5px;
+    background: #808080;
+    position: relative;
+    top: -7px;
+}
+
+.info-account {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 5px 15px;
+}
+.account {
+    padding: 0px 15px;
+}
+.account span {
+    display: block;
+    width: 100%;
+    font-size: 12px;
+    color: #ababab;
+}
+.account b.name-user {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #5a5a5a;
+}
+.options-header button.close-session {
+    background: transparent;
+    border: 2px solid #568fdb;
+    padding: 5px 8px;
+    border-radius: 8px;
+    color: #568fdb;
+}
+
+@media(max-width:768px){
+    .logo-dashboard img {
+        width: 120px;
+    }
+    .account{
+        padding: 0px 10px 0px 0px;
+    }
+    .info-account{
+        justify-content: space-around;
+        padding: 5px 15px;
+    }
+}

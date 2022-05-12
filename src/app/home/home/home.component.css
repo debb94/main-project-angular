@@ -1,0 +1,127 @@
+.content-transparent{
+    background: transparent;
+    box-shadow: none;
+}
+/* charts */
+.chart-home {
+    background: white;
+    padding: 10px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 3px;
+    box-shadow: 0 0 28px 0 rgb(154 161 171 / 15%);
+    margin-bottom: 15px;
+    height: calc(100% - 15px);
+    align-items: center;
+}
+
+/* widgets */
+.card.widget-flat {
+    border: 0px;
+    border-radius: 3px;
+    box-shadow: 0 0 28px 0 rgb(154,161,171,0.15);
+    margin-bottom: 15px;
+}
+h5.text-muted {
+    font-weight: 300;
+    color: #a5a5a5 !important;
+    font-size: 16px;
+}
+h3 {
+    font-size: 24px;
+    font-weight: 400;
+    color: #6c757d;
+}
+
+.text-widget-secundary-section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+span.text-widget-secundary {
+    font-size: 12px;
+    color: #a5a5a5;
+    font-weight: 100;
+}
+span.amount-pending {
+    color: #e6b543 !important;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+.transacciones {
+    margin: 35px 0px 20px;
+    width: 100%;
+}
+/* botones de home */
+.sec-btn-home{
+    padding: 0px 8px 10px;
+}
+.btn-home {
+    box-shadow: 0 0 28px 0 rgb(154 161 171 / 15%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ededed;
+    flex-wrap: wrap;
+    color: black;
+    background: white;
+}
+.btn-home img {
+    width: 80px;
+}
+.btn-home span{
+    font-size: 14px;
+    color: #7f7f7f
+}
+.btn-home h4 {
+    font-size: 14px;
+    margin: 0px;
+}
+
+/* Widgets */
+.text-muted {
+    color: #98a6ad!important;
+}
+h3{
+    color: #6c757d;
+}
+.transacciones li.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.transacciones .list-group-item .detail-transaction{
+    color: #999999;
+    font-weight: 300;
+    padding-left:8px;
+}
+span.date-transaction {
+    display: block;
+    font-size: 12px;
+    line-height: 12px;
+    color: #606060;
+    font-weight: 400;
+    padding-left: 10px;
+}
+.transacciones .list-group-item .mount-transaction{
+    color: #606060;
+}
+/* ################################# estado de transaccion ################################# */
+span.state {
+    display: block;
+    font-size: 12px;
+}
+span.state.green{
+    color: #28a745;
+}
+span.state.red{
+    color: #ff0d0d;
+}

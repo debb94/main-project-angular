@@ -1,0 +1,60 @@
+.support-button{
+    position: fixed;
+    bottom: 15px;
+    right: 10px;
+}
+.title-support {
+    text-align: center;
+    color: #565656;
+    font-weight: 400;
+}
+.btn-support {
+    cursor: pointer;
+    display: block;
+    border: 3px solid #28a745;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    position: relative;
+    font-size: 20px;
+    line-height: 2.1;
+    border-radius: 50%;
+    color: #0f4971;
+    box-shadow: 2px 2px 13px -4px #0e0e0e;
+    float: right;
+    background: white;
+}
+
+.section-msg-support {
+    width: 300px;
+    display: block;
+    padding: 20px 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 0px 14px 2px #d0d0d0;
+    border-radius: 10px;
+    background: white;
+    transition: 0.3s all ease;
+}
+
+.hide-support{
+    width:0px !important;
+    opacity:0 !important;
+}
+
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-thumb {
+    background: #dcdcdc;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: #c5c5c5;
+}
+::-webkit-scrollbar-track{
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: inset 6px 13px 12px #e3e3e3;
+}

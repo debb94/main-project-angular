@@ -1,0 +1,207 @@
+<!-- LOGIN -->
+<div *ngIf="view == 'view'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <div class="row">
+            <div class="col-md-6">
+                <dt>Usuario:</dt>
+                <dd>{{usuario.usuario_username}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Nombre:</dt>
+                <dd>{{usuario.persona_nombrecompleto}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Creado por:</dt>
+                <dd>{{usuario.usuario_creadopor}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Fecha creación:</dt>
+                <dd>{{usuario.usuario_fcreacion}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Status:</dt>
+                <dd *ngIf="usuario.usuario_estado == 1">Activo</dd>
+                <dd *ngIf="usuario.usuario_estado == 0">Inactivo</dd>
+            </div>
+        </div>
+        <h4 class="subtitle-1">Información adicional del usuario</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <dt>Nombre 1:</dt>
+                <dd>{{usuario.persona_nombre1}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Nombre 2:</dt>
+                <dd>{{usuario.persona_nombre2}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Apellido 1:</dt>
+                <dd>{{usuario.persona_apellido1}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Apellido 2:</dt>
+                <dd>{{usuario.persona_apellido2}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Sexo:</dt>
+                <dd>{{usuario.persona_sexo}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Email:</dt>
+                <dd>{{usuario.persona_email}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Teléfono:</dt>
+                <dd>{{usuario.persona_telefono}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Teléfono 2:</dt>
+                <dd>{{usuario.persona_telefono2}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Fecha nacimiento:</dt>
+                <dd>{{usuario.persona_fechanacimiento}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Ocupacion:</dt>
+                <dd>{{usuario.persona_ocupacion}}</dd>
+            </div>
+            <div class="col-md-6">
+                <dt>Estado civil:</dt>
+                <dd>{{usuario.persona_estadocivil}}</dd>
+            </div>
+        </div>
+        <h4 class="subtitle-1" *ngIf="propiedades.length > 0">Propiedades del usuario</h4>
+        <div class="row">
+            <div class="col-md-6" *ngFor="let propiedad of propiedades">
+                <!-- <dt>Nombre 1:</dt> -->
+                <dd>{{propiedad.propiedad_nombre}} - {{propiedad.complejo_nombre}}</dd>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>
+<div *ngIf="view == 'create' || view == 'update'">
+    <span class="material-icons close-dialog" (click)="closeDialog()">close</span>
+    <h1 class="title-modal-bold">{{title}}</h1>
+    <mat-dialog-content style="min-height: 210px;">
+        <h4 class="subtitle-1">Información del usuario</h4>
+        <form [formGroup]="formPersona">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Nombre 1 <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_nombre1">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Nombre 2 </label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_nombre2">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Apellido 1 <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_apellido1">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Apellido 2 </label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_apellido2">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Sexo <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="persona_sexo">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="sexo.codigo" *ngFor="let sexo of sexo">{{sexo.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Email <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_email">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Teléfono <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_telefono" [mask]="maskphone">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Teléfono 2 </label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_telefono2" [mask]="maskphone">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Fecha Nacimiento</label>
+                    <mat-form-field color="accent" class="input-full-width col-md-12" appearance="outline">
+                        <input matInput [matDatepicker]="picker2" (keyup)="dateKeys($event)" (keydown)="dateKeys($event)" formControlName="persona_fechanacimiento">
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2 color="primary"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Ocupación</label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="persona_ocupacion">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Estado civil </label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="persona_estadocivil">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="estado.codigo" *ngFor="let estado of estadoCivil">{{estado.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+        <!-- <h4 class="subtitle-1">Usuario</h4>
+        <form [formGroup]="formUsuario">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Usuario <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="usuario_username">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <label class="label-mat-form">Usuario confirmación <span class="required">*</span></label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <input matInput formControlName="usuario_username2">
+                    </mat-form-field>
+                </div>
+            </div>
+        </form> -->
+        <h4 class="subtitle-1">Perfil del usuario</h4>
+        <form [formGroup]="formPerfil">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="label-mat-form">Perfil </label>
+                    <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                        <mat-select formControlName="perfil_id">
+                            <mat-option value="">Seleccione..</mat-option>
+                            <mat-option [value]="perfil.codigo" *ngFor="let perfil of perfiles">{{perfil.nombre}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </mat-dialog-content>
+    <div mat-dialog-actions>
+        <div class="text-center col-12">
+            <button mat-button *ngIf="view == 'create'" class="btn btn-green" style="padding:8px 10px;" (click)="onSubmit()">Guardar</button>
+            <button mat-button *ngIf="view == 'update'" class="btn btn-green" style="padding:8px 10px;" (click)="onSubmitUpdate()">Guardar</button>
+            <button mat-button class="btn btn-red" style="padding:8px 10px;" (click)="closeDialog()">Cancelar</button>
+        </div>
+    </div>
+</div>

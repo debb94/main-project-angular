@@ -1,0 +1,142 @@
+<div class="content content-transparent">
+    <h4 class="pl-3 pt-3  title-transactions">Pagos a condominios</h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row mb-2 p-3">
+                <form [formGroup]="formFilter" class="w-100">
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <mat-label>Complejo</mat-label>
+                                <mat-select formControlName="complejoId">
+                                    <mat-option value="">Seleccione..</mat-option>
+                                    <mat-option [value]="complejo.codigo" *ngFor="let complejo of complejos">{{complejo.nombre}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <mat-label>Inicio</mat-label>
+                                <input matInput disabled [matDatepicker]="picker1" formControlName="dStart">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                                <mat-label>Fin</mat-label>
+                                <input matInput disabled [matDatepicker]="picker2" formControlName="dEnd">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn-bold" (click)="sendRequest()">Filtrar</button>
+                        <button class="btn-bold" (click)="getReport()">Exportar .xls</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-lg-3 col-sm-12">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Mantenimiento</h5>
+                            <div class="d-flex">
+                                <div class="icon-mantenimiento">
+                                    <span class="material-icons">attach_money</span>
+                                </div>
+                                <div class="content-widget-pagos pl-1">
+                                    <h3>{{mantenimiento.total_condominio | currency }}</h3>
+                                    <p class="mb-0 text-widget-secundary-section">
+                                        <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"></i> fee: {{mantenimiento.fee | currency }}</span>
+                                        <span class="text-widget-secundary">T. recaudado: {{mantenimiento.total | currency }}</span>   
+                                    </p>
+                                </div>
+                            </div>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-md-6 col-lg-3 col-sm-12">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Productos</h5>
+                            <div class="d-flex">
+                                <div class="icon-mantenimiento">
+                                    <span class="material-icons">style</span>
+                                </div>
+                                <div class="content-widget-pagos pl-1">
+                                    <h3>{{productos.total_condominio | currency }}</h3>
+                                    <p class="mb-0 text-widget-secundary-section">
+                                        <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"></i> fee: {{productos.fee | currency }}</span>
+                                        <span class="text-widget-secundary">T. recaudado: {{productos.total | currency }}</span>   
+                                    </p>
+                                </div>
+                            </div>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-md-6 col-lg-3 col-sm-12">
+                    <div class="card widget-flat">
+                        <div class="card-body">
+                            <div class="float-end">
+                                <i class="mdi mdi-account-multiple widget-icon"></i>
+                            </div>
+                            <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Derramas</h5>
+                            <div class="d-flex">
+                                <div class="icon-mantenimiento">
+                                    <span class="material-icons">format_color_fill</span>
+                                </div>
+                                <div class="content-widget-pagos pl-1">
+                                    <h3>{{derramas.total_condominio | currency }}</h3>
+                                    <p class="mb-0 text-widget-secundary-section">
+                                        <!-- <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> {{inactive_customers}}</span> -->
+                                        <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"></i> fee: {{derramas.fee | currency }}</span>
+                                        <span class="text-widget-secundary">T. recaudado: {{derramas.total | currency }}</span>  
+                                    </p>
+                                </div>
+                            </div>
+                        </div> <!-- end card-body-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+
+                <div class="col-md-6 col-lg-3 col-sm-12">
+                    <div class="card widget-flat">
+                        <div class="card widget-flat">
+                            <div class="card-body">
+                                <div class="float-end">
+                                    <i class="mdi mdi-account-multiple widget-icon"></i>
+                                </div>
+                                <h5 class="text-muted fw-normal mt-0" title="Number of Customers">Multas</h5>
+                                <div class="d-flex">
+                                    <div class="icon-mantenimiento">
+                                        <span class="material-icons">receipt</span>
+                                    </div>
+                                    <div class="content-widget-pagos pl-1">
+                                        <h3>{{multas.total_condominio | currency }}</h3>
+                                        <p class="mb-0 text-widget-secundary-section">
+                                            <!-- <span class="text-success me-2"><i class="mdi mdi-arrow-up-bold"></i> {{inactive_customers}}</span> -->
+                                            <span class="text-danger me-2"><i class="mdi mdi-arrow-up-bold"></i> fee: {{multas.fee | currency }}</span>
+                                            <span class="text-widget-secundary">T. recaudado: {{multas.total | currency }}</span>  
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> <!-- end card-body-->
+                        </div> <!-- end card-->
+                    </div> <!-- end card-->
+                </div> <!-- end col-->
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>

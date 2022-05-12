@@ -1,0 +1,318 @@
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="d-none d-md-flex col-md-5 col-lg-5 bg-image"></div>
+    <div class="col-md-7 col-lg-7">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div [ngSwitch]="view">
+            <div *ngSwitchCase="'login'" class="row">
+              <div class="col-md-11 col-lg-8 mx-auto">
+                <h5 class="login-heading mb-4">Tu portal CRM, ERP</h5>
+                <form [formGroup]="formLogin">
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput placeholder="Usuario" formControlName="fuser">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput type="password" placeholder="Contraseña" formControlName="fpass">
+                  </mat-form-field>
+                  <span *ngIf="viewMessage" class="text-alert">Completa la información correctamente.</span>
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" (click)="signin()">Ingresar</button>
+                  <div class="text-center">
+                    <a class="small pr-3" href="#" (click)="changeView('forgotPass')">Olvidaste tu contraseña?</a><a class="small" href="#" (click)="changeView('register')">Crear Cuenta</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div *ngSwitchCase="'register'" class="row">
+              <div class="col-md-11 col-lg-8 mx-auto">
+                <h5 class="login-heading mb-4">Registro de Usuarios</h5>
+                <form [formGroup]="formRegister">
+                  <div class="row nm-row">
+                    <div class="col-md-6 np-col">
+                      <mat-form-field appearance="outline" class="input-full-width">
+                        <mat-label>1er. Nombre*</mat-label>
+                        <input matInput placeholder="1er. nombre*" formControlName="persona_nombre1">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6 np-col">
+                      <mat-form-field appearance="outline" class="input-full-width">
+                        <mat-label>2do. nombre</mat-label>
+                        <input matInput placeholder="2do. nombre" formControlName="persona_nombre2">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6 np-col">
+                      <mat-form-field appearance="outline" class="input-full-width">
+                        <mat-label>1er apellido*</mat-label>
+                        <input matInput placeholder="1er. apellido*" formControlName="persona_apellido1">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6 np-col">
+                      <mat-form-field appearance="outline" class="input-full-width">
+                        <mat-label>2do apellido</mat-label>
+                        <input matInput placeholder="2do. apellido*" formControlName="persona_apellido2">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Teléfono*</mat-label>
+                    <input matInput placeholder="Teléfono*" formControlName="persona_telefono" [mask]="maskPhone">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Correo electrónico*</mat-label>
+                    <input matInput placeholder="Correo electrónico*" formControlName="usuario_username">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Contraseña*</mat-label>
+                    <input matInput type="password" placeholder="Contraseña*" formControlName="usuario_password">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Confirmar contraseña*</mat-label>
+                    <input matInput type="password" placeholder="Confirmar contraseña*" formControlName="usuario_password2">
+                  </mat-form-field>
+                  <span *ngIf="viewMessageRegister" class="text-alert">{{messageRegister}}</span>
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" (click)="register()">Registrar</button>
+                  <div class="text-center">
+                    <a class="small pr-3" href="#" (click)="changeView('forgotPass')">Olvidaste tu contraseña?</a><a class="small" href="#" (click)="changeView('login')">Iniciar sesión</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div *ngSwitchCase="'forgotPass'" class="row">
+              <div class="col-md-9 col-lg-8 mx-auto">
+                <h5 class="login-heading mb-2">Recuperar contraseña</h5>
+                <span class="info-alert">Enviaremos un correo electronico para reestablecer su contraseña durante las proximas 24 horas.</span>
+                <form [formGroup]="formForgotPass" class="mt-2">
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Correo Electrónico*</mat-label>
+                    <input matInput placeholder="Correo Electrónico*" formControlName="fcorreo">
+                  </mat-form-field>
+                  <span *ngIf="viewMessageForget" class="text-alert">Correo no es valido.</span>
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" (click)="forgotPass()">Recuperar</button>
+                  <div class="text-center">
+                    <a class="small pr-3" href="#" (click)="changeView('login')">Iniciar sesión</a><a class="small" href="#" (click)="changeView('register')">Crear Cuenta</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div *ngSwitchCase="'recovery'" class="row">
+              <div class="col-md-9 col-lg-8 mx-auto">
+                <h5 class="login-heading mb-2">Actualizar contraseña</h5>
+                <span class="info-alert">Su contraseña debe tener como mínimo 8 caracteres.</span>
+                <form [formGroup]="formRecovery" class="mt-2">
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Contraseña*</mat-label>
+                    <input type="password" matInput placeholder="Contraseña*" formControlName="fpass">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="input-full-width">
+                    <mat-label>Confirmar contraseña*</mat-label>
+                    <input type="password" matInput placeholder="Confirmar contraseña*" formControlName="fcpass">
+                  </mat-form-field>
+                  <span *ngIf="viewMessageRecovery" class="text-alert">Contraseñas no coinciden.</span>
+                  <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" (click)="sendRecovery()">Actualizar</button>
+                  <div class="text-center">
+                    <a class="small pr-3" href="#" (click)="changeView('login')">Iniciar sesión</a><a class="small" href="#" (click)="changeView('register')">Crear Cuenta</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div *ngSwitchCase="'terminos'" class="row">
+              <span class="material-icons back-btn-policy" (click)="changeView('login')">arrow_back</span>
+              <div class="col-md-10 col-lg-10 mx-auto policy-login">
+                <h5 class="policy-heading mb-3">Terminos y Condiciones de Uso</h5>
+                <p>Los Términos y Condiciones, (de aquí en adelante TYC), aquí detallados regulan la relación entre Usted, y Webtronick, (de aquí en adelante "WE" o "Nosotros"), a los que usted se obliga al utilizar nuestro sistema.</p>
+                <ol>
+                  <li>USO DE WE
+                    <ol type="a">
+                      <li>Con WE Usted podrá pagar las cuotas o facturas de su urbanización y/o condominio, incluyendo, pero sin limitarse, a las de mantenimiento, derrama, primas seguros, multas, intereses, penalidades, etc., o los bienes y/o servicios en los establecimientos autorizados.  Entiéndase por Establecimientos las urbanizaciones con controles de acceso, condominios, y/o cualquier otro negocio que contrate con WE (de aquí en adelante los “Establecimientos”). Usted debe pagar todos los Cargos (como se definen en el siguiente párrafo) que hayan sido facturados a Usted.</li>
+                      <li>La palabra "Cargos" significa las cantidades que figuren en su factura y/o balance de cuenta, las cuales incluyen, pero no se limitan, a todos los importes correspondientes a las cuotas de mantenimiento, derramas, primas de seguros, multas, intereses, penalidades vencidas y/o pagos pendientes por bienes o servicios que hayan sido solicitados; cargos por uso y/o administrativos según definidos en estos TYC y/o otros conceptos detallados en estos TYC. </li>
+                      <li>Excepto que se estipule lo contrario, cada vez que Usted utilicen PE, recibirá una Nota de Cargo o recibo por correo electrónico que le emite WE con información de la transacción recientemente realizada. De no recibir esa Nota de Cargo tendrá que solicitarlo a través del correo electrónico "pago@pagoeasy.com".  </li>
+                      <li>FIRMA EN ARCHIVO:  Con la aceptación de los TYC Usted acepta que toda transacción realizada por WE o a través de WE están autorizadas y debidamente firmadas por Usted, como si fuera una firma física.  Por ende, toda transacción realizada por Usted a través de WE será aplicable al Programa "Firma en Archivo" (o "Signature on File" en idioma inglés), por el cual Usted autoriza a usar su Tarjeta para realizar operaciones por correo, por la página electrónica de pagoeasy.com o por teléfono y/o a través de Internet, sin tener que firmar las Notas de Pago físicamente, para el pago de sus obligaciones. Cada vez que Usted use Sistema de WE bajo el programa "Firma en Archivo", el Establecimiento quedará libre de cualquier reclamación por el CARGO hecho a su cuenta. Usted acepta y se obliga en pagar todos los Cargos relacionados al Programa Firma en Archivo, bajo las mismas condiciones establecidos para cualquier Cargo.</li>
+                      <li>Cuando un Establecimiento acepte WE con una cuenta a su nombre, WE realizara el pago al Establecimiento en los próximos 5 días después de emitido el Cargo, quedando Usted obligado a pagar todos los Balances que figuren en su Estado de Cuenta conforme a lo establecido por el Establecimiento.</li>
+                      <li>Nosotros no garantizamos que WE sea aceptada en todos los Establecimientos.</li>
+                    </ol>
+                  </li>
+                  <li>DESCRIPCIÓN DEL SERVICIO: WE provee a sus usuarios acceso, a través del Internet, a contenido personalizado y programación por medio de su Servicio. Cualquier servicio adicional que se establezca para aumentar, mejorar o modificar el Servicio, estará sujeto a los TYC, excepto cuando específicamente se indique lo contrario. Usted entiende y acepta que el Servicio se provee tan y como se presenta (“As is”) y que WE no asume responsabilidad por la certeza de su contenido. Para poder utilizar el Servicio usted debe obtener acceso a Internet y pagar las tarifas asociadas a tal acceso. Además, debe poseer el equipo necesario para establecer la conexión a Internet (World Wide Web), como lo puede ser una computadora y un módem, o cualquier otro tipo de equipo capaz de realizar la conexión.</li>
+                  <li>CUENTA DEL USUARIO, CONTRASEÑA Y SEGURIDAD Como parte del proceso de Registro en WE usted se le asignara un usuario y una contraseña la cual será provisional que debe seleccionar una nueva contraseña, que serán para el uso exclusivo de UN (1) usuario y la cual el complejo pueda certificar su autenticidad como Titular. Este usuario será el único autorizado por WE a utilizar la cuenta. Dado que WE concede acceso individual a una sola persona a través de un nombre de usuario y una contraseña, cada usuario es responsable de mantener esta información confidencial y será responsable de toda la actividad que ocurra bajo su nombre de usuario. Usted se compromete a notificarle a WE sobre cualquier uso no autorizado de su nombre y contraseña, o sobre cualquier otra violación de seguridad. WE no se responsabiliza por ningún daño o perjuicio causado por el uso no autorizado de la cuenta de un usuario. WE se reserva el derecho de cancelar de usuario o futuro acceso a usuarios que compartan su nombre de usuario y contraseña con cualquier persona natural o jurídica.</li>
+                  <li>OBLIGACIONES DEL USUARIO Como usuario del Servicio, usted se compromete a: (a)proveer información cierta, corriente y completa sobre su persona cuando esta le sea requerida durante el Registro del usuario; (b) mantener e informar sobre cualquier cambio relacionado a esta información para mantener la data del Registro completa y actualizada. De usted proveer información falsa, incorrecta, incompleta o no actualizada, o si WE tuviera razones para considerar que la información que usted proveyó es falsa, incorrecta, incompleta o no está actualizada, WE se reserva el derecho de suspender o terminar sus privilegios como usuario.</li>
+                  <li>LIMITE DE PAGOS.
+                    <ol type="a">
+                      <li>Toda factura se tiene que pagar en su totalidad.  WE no acepta pagos parciales a menos que el Establecimiento así lo autorice en un documento firmado por ambas partes y enviado al correo electrónico pago@pagoeasy.com.</li>
+                      <li>El Establecimiento es quien establece el balance de su cuenta, no PE. </li>
+                      <li>El Cargo podrá ser ajustado por el Establecimiento cuando así este lo solicite.</li>
+                      <li>Sus pagos e historial de pago en todas las cuentas lo tendrá el Establecimiento.</li>
+                      <li>En caso de incumplimiento con los términos aquí establecidos, WE quedará facultada para denegar su acceso al sistema.</li>
+                      <li>En caso de que Usted excediera o pagara más de su balance, el sistema de WE lo adjudicara y se le notificara al Establecimiento para que acredite él mismo a su cuenta o balance pendiente o balance futuro. Ese exceso automáticamente formará parte del pago del Estado de Cuenta posterior en los libros de contabilidad del Establecimiento.</li>
+                      <li>La deuda en su Estado de Cuenta se refleja en dólares.</li>
+                    </ol>
+                  </li>
+                  <li>PAGO MINIMO EN WE Y OBLIGACIÓN DE ABONAR EL SALDO TOTAL DE SU ESTADO DE CUENTA. Los Cargos que el Establecimiento le indique a WE y los Cargos Administrativos por transacción será el balance que se reflejará en su cuenta.  Ningún pago parcial, si el Establecimiento aceptase los mismos, detendrá cualquier gestion echa por el Establecimiento para el cobro de la deuda.  En los casos que el Establecimiento sea un condominio, el abono a la deuda por el sistema de WE no detendrá el proceso de corte de los servicios como lo establece la Ley de Condominios. El pago mínimo será el balance reflejado en el Estado de Cuenta.  En caso de que usted se acoja a un acuerdo de pago con el Establecimiento tendrá que hacer el pago acordado con el Establecimiento y notificado a PE.</li>
+                  <li>CARGOS POR EL USO DE LOS SERVICIOS DE PE. (CARGOS DE USO y/o ADMINISTATIVOS).  Los Cargos por Uso y/o Administrativos que se encuentra en el estado de cuenta después del balance a pagar por los bienes o servicios, representan lo que WE le cobrará para procesar su pago. Dichos Cargos los paga Usted..   Estos Cargos se reflejan en la tabla al final de este acuerdo.  Al usted aceptar estos TYC está aceptando que los Cargos en su factura son los correctos y son los cargos aprobados por Usted.  WE no aceptará ninguna reclamación de reembolso por los Cargos de WE después que usted haya aceptado estos TYC.  Los cargos serán finales y firmes. Los Cargos por Uso pueden variar por las condiciones de pago que Usted elija. La forma de pago de las Tarjetas de Créditos son las que las compañías de dichas Tarjetas establezcan y las cantidades aquellas que éstas cobran al Establecimiento. De tener alguna pregunta o duda con respecto a los cargos, puede escribir a pago@pagoeasy.com. Dichos cargos podrán variar de tiempo en tiempo, a la sola discreción de PE, teniendo en cuenta las variaciones ocurridas en los mercados financieros y serán informados en su próximo Estado de Cuenta.</li>
+                  <li>CANCELACION TRANSACCION: Si Usted notifica por escrito su deseo de cancelar alguna transacción, WE notificará el mismo al Establecimiento. La determinación del Establecimiento en cuanto a su reclamo podrá tardar sobre 30 días. Usted acuerda esperar por dicha determinación.  WE no se hace responsable de la determinación del Establecimiento y cualquier reclamo que Usted entienda poseer por dicha determinación acuerda llevarlo directamente contra el Establecimiento liberando de responsabilidad a PE. De Usted tener un balance pendiente de pago no se cancelará ninguna transacción suya por el monto de la cantidad adeudada. Dicho pago o transacción que interesa cancelar se adjudicará al monto adeudado. De no tener balance pendiente y su cuenta se encontrarse en crédito por el pago emitido y que ahora pretende cancelar, el Establecimientos tendrá la potestad para devolverlo o de notificarle a Usted que dicho pago se le acreditará al balance del próximo mes.  (no entiendo).  De no tener balance del próximo mes o posteriormente durante el periodo de pago o transacciones el Establecimientos puede pagarle a Usted la transacción emitida por Usted.  Usted es responsable del pago de cualquier Cargoque esto implique.</li>
+                  <li>Si Usted incumplen cualquiera de los TYC, WE podrá suspender y/o cancelar la cuenta en cualquier momento en forma inmediata y sin necesidad de interpelación previa. Nosotros podremos notificar la cancelación de WE a los Establecimientos. En el caso de que reactivemos una cuenta previamente cancelada, WE se reserva el derecho de cobrar unos cargos establecidos por la reinstalación de los servicios. Asimismo, WE podrá suspender y/o cancelar su cuenta en cualquier momento en forma inmediata y sin necesidad de interpelación previa cuando se verifique alguna de las siguientes causales: 
+                    <ol type="a">
+                      <li>Mal uso de los servicios de PE. </li>
+                      <li>La devolución de los cargos por falta de fondo de manera ACH por más de tres ocasiones. </li>
+                      <li>Que falsifique información. </li>
+                      <li>Falsificar encabezados, o de alguna manera manipular el contenido e identificaciones, para engañar al usuario sobre el origen del contenido transmitido por el Servicio.</li>
+                      <li>Falsificar el logo o recibo de pago</li>
+                    </ol>
+                  </li>
+                  <li>Los cargos por cualquier transacción devuelta por su institución financiera serán los que indica la tabla de abajo, por cada una.</li>
+                  <li>Usted recibirá un correo electrónico cuando procese el pago a través del sistema de WE confirmando la transacción. Salvo que nos indique expresamente lo contrario, entenderemos que Usted acepta recibir la confirmación de pago en forma electrónica para lo cual deberá́ obtener un usuario y contraseña para acceder a la página web de PE.</li>
+                  <li>La confirmación de pago mostrará los pagos emitidos por el sistema de WE correspondientes al balance de pago que refleja su cuenta.  De no ser el correcto favor de comunicarse con nosotros por email a pago@pagoeasy.com.</li>
+                  <li>Todos los pagos deberán ser hechos por los medios de pago que sean considerados y aceptables por PE.</li>
+                  <li>LOS CARGOS RECURRENTES O DEBITOS AUTOMATICOS. Los cargos recurrentes podrán gozar de un descuento en los cargos administrativos de la segunda transacción en adelante.  Dicho descuento sería por nuestro proveedor de los pagos electrónicos que es Brava Business Solution LLC. En caso de que Usted decida cancelar o suspender el pago de débitos automáticos, deberá notificar al Establecimiento y a PE, manteniéndose Usted como responsable de todo pago que WE efectúe al Establecimiento hasta treinta (30) días después de recibida dicha notificación. Si el sistema WE hace el cargo en el término suscrito arriba, Usted deberá pagar el balance adeudado y no podrá reclamar por ninguna condición ese pago de estar en el término antes dispuesto.  WE no rechazará el pago de dicho balance adeudado.</li>
+                  <li>ERRORES O QUEJAS SOBRE EL BALANCE DE PAGO O ADEUDADO.
+                    <ol type="a">
+                      <li>PE no es responsable del Balance Adeudado que se encuentre reflejado en el sistema.  Las discrepancias o errores que usted entienda se reflejan en el estado de cuenta debe notificarlas y buscar resolverlas con el Establecimiento.</li>
+                      <li>Si Usted objeta el pago emitido o el pago recurrente que Usted programó en el sistema, tendrá que hacerlo a través de un email a pago@pagoeasy.com para que WE se comunique con el Establecimiento.  El Establecimiento es el que aprueba o no que su pago esta bien o mal hecho.  Del Establecimiento indicar que el pago está mal hecho por Usted el Establecimiento emitirá un cheque a nombre de Usted para pagarle la cantidad objetada.  Este procedimiento podrá durar hasta 30 días laborables en lo que el Establecimiento realiza la investigación.  WE no tendrá ninguna responsabilidad por el pago emitido por Usted ya que ese pago se deposita en la cuenta bancaria del Establecimiento y ellos son los únicos que tienen injerencia en la cuenta de banco.</li>
+                    </ol>
+                  </li>
+                  <li>PROBLEMAS CON LOS BIENES Y/O SERVICIOS. Usted es quien selecciona libremente los Establecimientos que forman parte de WE en los cuales desee hacer los pagos. WE no tendrá responsabilidad por los actos u omisiones de Establecimientos, incluyendo su negativa a aceptar el sistema de PE. Los reclamos por los pagos de los balances de los bienes o servicios adquiridos deberán hacerse por Usted, directamente al Establecimiento, sin que por ello se altere el balance de pago reflejado en el sistema de PE.</li>
+                  <li>INFORMACION SOBRE USTED EN EL SISTEMA DE PE
+                    <ol type="a">
+                      <li>Información: Usted es el que hace la entrada al sistema y autoriza que WE a efectuar cualquier investigación sobre Usted con el Establecimiento que consideremos necesaria, para corroborar que Usted es la persona autorizada para hacerlos pagos al Establecimiento a través de PE, entre otras cosas.  La información tiene que ser la misma que el Establecimiento tenga en los archivos de Usted como:
+                        <ol type="i">
+                          <li>Nombres y apellidos;</li>
+                          <li>Nombre del Establecimiento;</li>
+                          <li>Numero de apartamento o local o unidad;</li>
+                          <li>Dirección postal o residencial;</li>
+                          <li>Número de teléfono;</li>
+                          <li>Correo Electrónico.</li>
+                        </ol>
+                      </li>
+                      <li>Información telefónica: Con la finalidad de asegurar la calidad de nuestro servicio al cliente, WE podrá escuchar y/o grabar todas las llamadas telefónicas realizadas por Usted a nuestras oficinas o centros de atención, sin necesidad de advertírselo a Usted en cada oportunidad.</li>
+                      <li>Almacenamiento de Datos: Los datos entrados por Usted serán almacenados en nuestra base de datos y en el sistema de contabilidad de PE. Esta base de datos solo tendrá todo los descrito en el Punto 16. (a).  La base de datos de su información de la tarjeta de crédito o institución bancaria solo estará en el sistema de la compañía procesadora. La información del método de pago que usted utilice en el sistema de WE no se almacena en nuestra base de datos, ni ninguna persona de WE podrá acceder a los datos de ninguna manera ya que el sistema no tiene forma de almacenar dicha información.  Los Establecimientos participantes tampoco tendrán o podrán acceder a ninguna información de los métodos de pago que Usted utilice en PE.</li>
+                    </ol>
+                  </li>
+                  <li>OBLIGACIONES DEL USUARIO Como usuario del Servicio, usted se compromete a: (a)proveer información cierta, corriente y completa sobre su persona cuando esta le sea requerida durante el Registro del usuario; (b) mantener e informar sobre cualquier cambio relacionado a esta información para mantener la data del Registro completa y actualizada. De usted proveer información falsa, incorrecta, incompleta o no actualizada, o si WE tuviera razones para considerar que la información que usted proveyó es falsa, incorrecta, incompleta o no está actualizada, WE se reserva el derecho de suspender o terminar sus privilegios como usuario.</li>
+                  <li>CONDUCTA DEL USUARIO Usted entiende que toda la información, data, texto, programación, música, sonido, fotografías, video, mensajes y cualquier otro material considerado como Contenido, que haya sido publicado por un usuario, es responsabilidad del usuario que originó y publicó dicho material. Esto significa que el usuario, y no PE, es completamente responsable por todo el Contenido que dicho usuario origine, recoja, publique, envíe por correo electrónico o transmita a través del Servicio. WE no garantiza la fiabilidad, integridad o calidad del Contenido. Es responsabilidad del usuario verificar y constatar la información del Contenido. Usted entiende que al utilizar el Servicio puede estar expuesto a Contenido ofensivo, indecente u objetable. WE no se responsabiliza por ninguna pérdida, daño o perjuicio causado como consecuencia de omisiones y/o errores de cualquier tipo que contenga el Contenido originado, publicado, enviado o transmitido por el Servicio. Si usted considera que alguna información en el Contenido del Servicio, ya sea en todo o en parte, es incorrecta, engañosa o perjudicial, favor de notificarlo a WE presionando aquí. Usted se compromete a no utilizar el servicio para:
+                    <ol type="a">
+                      <li>Recoger, publicar, enviar por correo electrónico o de cualquier manera transmitir contenido que se pudiera considerar ilegal, dañino, amenazante, abusivo, hostigador, difamatorio, vulgar, obsceno, libelo, capa de invadir la privacidad, o que contenga comentarios discriminatorios o abusivos hacia una raza, cultura, religión o género.</li>
+                      <li>Hacerle daño de cualquier tipo a menores de edad.</li>
+                      <li>Hacerse pasar por otra persona o entidad, incluyendo, pero no limitado a, oficiales de PE, o de alguna forma asociar falsamente a una afiliación con una persona o entidad.</li>
+                      <li>Falsificar encabezados, o de alguna manera manipular el contenido e identificaciones, para engañar al usuario sobre el origen del contenido transmitido por el Servicio.</li>
+                      <li>Recoger, publicar, enviar por correo electrónico o de cualquier manera transmitir contenido al que usted no tiene derecho por ley, contrato o relaciones fiduciarias, como lo sería información confidencial obtenida bajo acuerdo o relaciones de empleo.	</li>
+                      <li>Recoger, publicar, enviar por correo electrónico o de cualquier manera transmitir contenido que infrinja alguna patente, marca, secreto de negocio, derecho de autor, o cualquier otro derecho de propiedad intelectual.</li>
+                      <li>Recoger, publicar, enviar por correo electrónico o de cualquier manera transmitir contenido no solicitado o no autorizado, como materiales promocionales, “junk mail”, “spam”, cartas en cadena, esquemas de pirámide, o cualquier otra forma de solicitación no autorizada comunicación no solicitada.</li>
+                      <li>Recoger, publicar, enviar por correo electrónico o de cualquier manera transmitir contenido o material que contenga virus electrónicos o cualquier otro tipo de código de computadora, archivo o programa diseñado para interrumpir, destruir, modificar o limitar el funcionamiento normal de un programa de computadoras, equipo de computadoras o equipo de telecomunicaciones.</li>
+                      <li>Interrumpir o interferir con el Servicio, los servidores o redes conectados al Servicio, desobedecer o no cumplir con los requisitos, procedimientos, políticas o regulaciones de las redes conectadas al Servicio.</li>
+                      <li>Violar cualquier ley local, estatal, federal o internacional, incluyendo, pero no limitado a, las regulaciones promulgadas por la Comisión de Seguridad e Intercambio de Estados Unidos (U.S. Securities and Exchange Comission), reglamentos de cualquier agencia, incluyendo a cualquier otra regulación que tenga fuerza de ley.</li>
+                      <li>Hostigar, perseguir, molestar, acosar (stalk) a otros individuos.</li>
+                      <li>Recopilar y/o almacenar información personal de otros usuarios. WE y sus funcionarios se reservan el derecho de remover cualquier contenido que viole los TYC o que sea objetable. Usted está de acuerdo con que evaluará y se responsabilizará por todos los riesgos asociados al uso y/o publicación de Contenido, incluyendo, pero no limitado a, la veracidad, fiabilidad, utilidad y calidad de la información del Contenido.</li>
+                    </ol>
+                  </li>
+                  <li>USO NO AUTORIZADO: Si una persona no autorizada por WE utiliza, modifica, altera o intenta utilizar, modificar y/o alterar el programa, y éste deja de funcionar total o parcialmente, WE podrá imponer una multa al usuario que permitió el acceso al programa de la persona no autorizada y, además, cobrará por los trabajos y gestiones que sean necesarias para el establecimiento y funcionamiento adecuado del programa. El usuario autorizado será responsable por los gastos en que se incurra por esta violación. WE se reserva el derecho de cancelar, desactivar y/o eliminar la cuenta y los archivos del usuario que viole esta disposición de los TYC.</li>
+                  <li>RENUNCIA: El hecho de que no ejerzamos alguno de nuestros derechos derivados de los términos y/o condiciones de este acuerdo o la renuncia a nuestros derechos en ocasiones aisladas, no implica ni constituye una renuncia al ejercicio de nuestros derechos para otras ocasiones.</li>
+                  <li>INFORMACIÓN SOBRE OFERTAS Y PROMOCIONES ESPECIALES: Nosotros regularmente le enviaremos información adicional sobre promociones especiales, ofertas exclusivas de productos e información sobre Establecimientos, entre otros. Podremos utilizar la información brindada por Usted, la obtenida a través del sistema de WE o bien la información obtenida de reportes del Establecimiento, para realizar actividades de mercadeo ya sea directamente, o mediante nuestras afiliadas u otras compañías con las cuales trabajamos. Usted nos autoriza a utilizar su nombre, domicilio, teléfono y/o dirección de correo electrónico para generar listas, que podrán ser cedidas a las compañías con las cuales trabajamos, para que éstas puedan ofrecerle bienes y servicios. En caso de que Usted no se encuentre interesado en continuar recibiendo estas ofertas, deberá enviar una carta solicitando su exclusión a WE por correo electrónico que es pago@pagoeasy.com.</li>
+                  <li>CAMBIO DE INFORMACION: Usted se obliga a notificarnos inmediatamente por correo electrónico de cualquier cambio de información o de dirección de correo electrónico para fines de comunicación, y acepta que se tendrá por recibido cualquier evidencia de pago que se le dirija a la dirección de correo electrónico indicado en por Usted en el sistema de PE, el cual WE considerará como vigente y válido mientras no se nos haya notificado un cambio por escrito. Asimismo, cualquier notificación que le hagamos se tendrá como válida una vez recibida por Usted en la ultima información que se encuentre en nuestros sistemas.</li>
+                  <li>MARCAS: El presente acuerdo no otorga a Usted ningún derecho sobre la denominación, el logotipo, marcas de servicio, marcas, nombres comerciales, slogans o cualquier otra designación sujeta al derecho de propiedad intelectual de WE (de aquí en adelante las “PEM”). Usted no podrá utilizar las PEM sin el previo consentimiento de Pago Easy otorgado por escrito.</li>
+                  <li>POLÍTICA DE PRIVACIDAD La información solicitada durante el Registro y cualquier información personal del usuario está sujeta a la Política de Privacidad de PE. Para más información, diríjase a la sección de Política de Privacidad.</li>
+                  <li>VIGENCIA: Los presentes TYC tendrán vigencia a partir de la fecha en la cual Usted acepte los TYC en la página de pagoeasy.com.  Los cambios a los TYC tendrán vigencia tan pronto sea publicados en la página pagoeasy.com.</li>
+                  <li>JURISDICCION Y LEY APLICABLE: Las presentes condiciones para el uso del sistema de WE se regirán por las leyes de Puerto Rico y cualquier controversia derivada de su interpretación o ejecución, será́ resuelta en el Tribunal de Primera Instancia de San Juan.</li>
+                  <li>ACEPTACIÓN A LOS TÉRMINOS y MODIFICACIONES: WE ofrece su servicio, sujeto a los siguientes TYC, los cuales pueden ser modificados unilateralmente y a su entera discreción, en cualquier momento y sin notificación previa. Para leer la versión más reciente de los TYC puede presionar aquí y/o evaluar los mismos en la página web de PE. Todas las guías y reglamentos de WE están debidamente incorporadas por referencia en estos TYC.</li>
+                </ol>                
+              </div>
+            </div>
+            <div *ngSwitchCase="'tratamiento'" class="row">
+              <span class="material-icons back-btn-policy" (click)="changeView('login')">arrow_back</span>
+              <div class="col-md-10 col-lg-10 mx-auto policy-login">
+                <h5 class="policy-heading mb-3">Políticas de privacidad</h5>
+                <ol>
+                  <li>PagoEasy.com (PE) está comprometido con su privacidad. Por esta razón, queremos que conozca nuestras prácticas de manejo de información en las siguientes áreas:
+                    <ol type="a">
+                      <li>Cuál es la información recopilada de usted o de terceras personas que lo identifican;</li>
+                      <li>La organización que recopila esta información;</li>
+                      <li>Cómo se utiliza esta información;</li>
+                      <li>Con quién se podría compartir esta información;</li>
+                      <li>Cuáles son sus opciones disponibles con relación a la recolección, uso y distribución de esta información;</li>
+                      <li>El tipo de procedimientos de seguridad que están provistos para evitar la pérdida, mal utilización o alteración de la información bajo el control de PE.</li>
+                      <li>Cómo puede corregir cualquier error en la información.</li>
+                    </ol>
+                  </li>
+                  <li>Si usted considera que WE no está cumpliendo con su política de privacidad, usted debe contactar a Pago Easy por correo electrónico a la dirección pago@pagoeasy.com</li>
+                  <li>Recopilación de la Información y su Uso
+                    <ol type="a">
+                      <li>PE es el dueño exclusivo de la información recogida en el portal. Nosotros no venderemos, ni compartiremos, ni alquilaremos esta información en maneras que no han sido presentadas en este documento. WE recopila información de sus usuarios en diferentes puntos del web site y se reserva el derecho a divulgar o compartir la información personal recopilada.</li>
+                      <li>Para poder acceder la información publicada por PE, el usuario debe registrarse. Durante el registro se le requiere al usuario que provea información de como contactarlo (tal como su nombre y dirección de correo electrónico). Esta información se utiliza para poder contactar al usuario sobre servicios en el portal a los que ha expresado interés.</li>
+                      <li>Para pagos WE pide la información requerida por el Establecimiento y/o los bancos, tales como nombre y apellidos, dirección física y postal, número de teléfono e información financiera, como su número de tarjeta de crédito, tipo de tarjeta y fecha de expiración. Esta información se utiliza para procesar el pago. Si surgiera algún problema al procesar su orden, entonces se utilizaría esta información.</li>
+                      <li>Dependiendo el Establecimiento, se podrá requerir evidencia de su titularidad de la propiedad, como copia de la escritura de compraventa.</li>
+                    </ol>
+                  </li>
+                  <li>Cookies
+                    <p>Una “cookie” es una pequeña pieza de data que se almacena en la computadora del usuario, la cual contiene información del usuario. El uso de estas “cookies” no está unido a ninguna información que lo identifique como individuo durante su visita en el portal. Una vez, el usuario cierra el programa para navegar el internet, la “cookie” simplemente termina. Por ejemplo, al poner una “cookie” en nuestro portal, el usuario no necesitará entrar su contraseña más de una vez, por lo tanto le ahorrará tiempo mientras visita PE. El usuario puede utilizar el portal aún si selecciona no utilizar las “cookies”. Las “Cookies” también permiten el darle seguimiento a los intereses de los usuarios y por lo tanto aumentar la experiencia en el portal.  Algunos de nuestros socios de negocios pueden utilizar “cookies” en el site (por ejemplo, anunciantes), pero no tenemos acceso o control sobre esas “cookies”.</p>
+                  </li>
+                  <li>Archivos de Uso Log Files
+                    <ol type="a">
+                      <li>Utilizamos direcciones de IP para analizar tendencias, administrar el portal, rastrear los movimientos de los usuarios y recoger información demográfica para utilizar en forma agregada.</li>
+                      <li>El IP se almacena al realizar búsquedas. Se utiliza para identificar usuarios que violen los Terminos de Uso.</li>
+                    </ol>
+                  </li>
+                  <li>Data Compartida
+                    <ol type="a">
+                      <li>Compartiremos su nombre, domicilio, teléfono y/o dirección de correo electrónico para generar listas, que podrán ser cedidas a las compañías con las cuales trabajamos, relacionados a los Establecimientos que usan WE para que éstas puedan ofrecerle bienes y servicios. En caso de que Usted no se encuentre interesado en continuar recibiendo estas ofertas, deberá enviar una carta solicitando su exclusión a WE por correo electrónico que es pago@pagoeasy.com y/o a través de la página web de PE.</li>
+                      <li>Utilizamos una compañía independiente para procesar tarjetas de crédito y facturar por nuestros servicios. Estas compañías no retienen, ni comparten, ni almacenan ni utilizan información personal que pudiera identificar individuos para propósitos secundarios.</li>
+                      <li>Nosotros trabajamos con Brava Business Solution LLC, para proveer el servicio de procesamiento y facturación de tarjetas de crédito. Estas compañías no tienen permitido el utilizar la información personal excepto para proveer los servicios contratados.</li>
+                      <li>PE no divulgara o compartirá la información personal recopilada con compañías no afiliadas a WE y/o que no provean bienes o servicios relacionados al negocio de PE.</li>
+                      <li>Todo Usuario puede solicitar a WE o impedir que WE divulgue toda o parte de su información personal a través de la página web de PE.</li>
+                    </ol>
+                  </li>
+                  <li>
+                    Enlaces “Links”
+                    <p>PE contiene lazos con otros sitios de Internet. WE no se hace responsable por las políticas de privacidad en otros portales. Le exhortamos a que lea las políticas de privacidad de otras compañías. Esta política de privacidad aplica solo a la información recogida en este portal.</p>
+                  </li>	
+                  <li>
+                    Notificaciones
+                    <p>Si el usuario interesa suscribirse a nuestras notificaciones electrónicas, le pediremos información para contactarle como su nombre y dirección de correo electrónico.</p>  
+                  </li>
+                  <li>
+                    Encuestas y Concursos
+                    <p>Ocasionalmente podríamos estar solicitando información para concursos y encuestas. La participación en estas encuestas es completamente voluntaria y el usuario decide si divulgar o no esta información. Se puede pedir información de contacto (como su nombre y dirección) o demográfica como (zip code y edad). La información de contacto se utilizará para notificar a los ganadores. La información de las encuestas se utilizará para monitorear y mejorar el uso y la satisfacción del portal.</p>
+                  </li>
+                  <li>Cuéntele-a-un-amigo (Tell-a-Friend)
+                    <p>Si el usuario quisiera utilizar nuestro servicio de referido, le solicitaremos el nombre del amigo y la dirección electrónica. [COMPANY X] automáticamente le enviará una notificación a su amigo invitándole a que visite el portal. WE almacena la data con el propósito de enviarle a su amigo el mensaje electrónico solo una vez. El amigo puede contactar a la WE para solicitar que lo remuevan de la base de datos.</p>
+                  </li>
+                  <li>Seguridad
+                    <ol type="a">
+                      <li>PE toma todas las precauciones necesarias para proteger la información del usuario. Cuando un usuario somete información sensitiva, la información está protegida 'online' y ‘offline'.</li>
+                      <li>Cuando en la facturación se le pide información sensitiva (como su tarjeta de crédito), la información es codificada (encrypted) y está protegida con el mejor programa de encripción de la industria SSL. Mientras está en una página que tiene seguridad, con la de facturación, el símbolo de candado (lock) en la parte de abajo de su programa de navegar el internet (Netscape Navigator o Microsoft Explorer) se cierra. Lo contrario sería abierto, cuando está solo mirando.</li>
+                      <li>El código SSL lo utilizamos mientras estamos en el internet (online). También tomamos medidas para proteger la información sensitiva cuando estamos fuera del internet (offline). Toda nuestra información de los usuarios está restringida en nuestras oficinas. Solo los empleados autorizados, a efectuar trabajos específicos tienen acceso a información individual del usuario. Nuestros empleados deben utilizar un sistema de contraseñas en sus pantallas (screen-saver password) para accesar la información cuando dejan el escritorio. Al regresar al escritorio, los empleados deben re-entrar la contraseña para poder trabajar con la información. TODOS los empleados, se mantienen informados sobre los cambios en seguridad y políticas de privacidad de la compañía. Todos los trimestres, se le notifica a los empleados sobre cambios en la política de privacidad y la importancia de mantener la privacidad como prioridad y lo que ellos pueden hacer para asegurarse que la privacidad de nuestros clientes se mantiene. Finalmente, los servers se mantienen en un ambiente seguro bajo llave.</li>
+                      <li>Si tiene alguna pregunta sobre la seguridad en nuestro portal puede comunicarse a pago@pagoeasy.com.</li>
+                    </ol>
+                  </li>
+                  <li>Ofertas Especiales
+                    <p>Usuarios establecidos pueden recibir periódicamente información sobre nuevos productos y servicios. En consideración a nuestros usuarios, les ofrecemos la opción de no recibir estas notificaciones. Por favor, lea la información sobre opción de no recibir información.</p>
+                  </li>
+                  <li>Corrección/Modificar la informaciónn personal
+                    <p>Si el usuario cambia su información personal (como el zip code), o si no desea continuar siendo usuario, o si no desea que WE divulgue su información le proveeremos una manera para hacer el cambio. Se puede comunicar a pago@pagoeasy.com.</p>
+                  </li>
+                  <li>
+                    Opción de No recibir Notificaciones
+                    <ol type="a">
+                      <li>usuarios pueden escoger no recibir notificaciones en el registro de usuarios nuevos.</li>
+                      <li>Usuarios que interesan descontinuar las notificaciones o materiales promocionales contestando la notificación en la sección de descontinuar del listado o contactándonos a pago@pagoeasy.com.</li>
+                    </ol>
+                  </li>
+                  <li>Certificamos que WE cumple con las disposiciones del Children's Online Privacy Protection Act del 1998 y su correspondiente Reglamento según implantado en 1999, por la Federal Trade Comission, para regular la recopilación de información de niños menores de trece (13) años de edad.</li>
+                  <li>Notificación de Cambios
+                    <p>En el caso que WE decidiera cambiar la política de privacidad, lo cual puede hacer unilateralmente y a su entera discreción, publicará los cambios en nuestra página principal, para que nuestros usuarios estén siempre informados de la manera en la que se recopila la información, como la usamos y bajo cuales circunstancias, si alguna se divulga la información. Si en cualquier momento, WE decidiera utilizar la información de identificación personal de una manera diferente, se le notificará a los usuarios por correo electrónico.</p>
+                  </li>
+                  <li>VIGENCIA:  Esta policita entra en vigor una vez sea publicada en la pagina web de PE.  Las enmiendas a las mismas entraran en vigor tan pronto sean publicadas en el portal o página web de PE.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="policy">
+        <span class="btn-text" (click)="changeView('terminos')">Terminos y condiciones de uso</span>
+        <span class="btn-text" (click)="changeView('tratamiento')">Políticas de privacidad</span>
+      </section>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="loading">
+  <mat-spinner [diameter]="50"></mat-spinner>
+</div>

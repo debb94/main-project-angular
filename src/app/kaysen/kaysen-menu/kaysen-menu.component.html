@@ -1,0 +1,17 @@
+<nav class="aside-menu">
+    <div class="main-menu" id="menu">
+        <button class="title-menu" type="button" routerLink="/home" routerLinkActive="active" (click)="closeMenu()">
+            <span class="material-icons menu-item-icon">home</span>Home
+        </button>
+        <div class="menu-collapse" *ngFor="let menu of menu">
+            <button class="title-menu" type="button" data-toggle="collapse" [attr.data-target]="'#'+menu.menu_padre" aria-expanded="false" aria-controls="collapseOne1">
+                <span class="{{menu.menu_libreria_icono}} menu-item-icon">{{menu.menu_icono}}</span>{{menu.menu_padre}}
+                <span class="material-icons up">keyboard_arrow_up</span>
+                <span class="material-icons down">keyboard_arrow_down</span>
+            </button>
+            <div id="{{menu.menu_padre}}" class="collapse" aria-labelledby="headingOne" data-parent="#menu">
+                <button *ngFor="let menuHijo of menu.hijos" class="item-menu" routerLinkActive="active" (click)="closeMenu()" [routerLink]="menuHijo.menu_hijo_accion" title="{{menuHijo.menu_hijo}}" [routerLinkActiveOptions]="{exact:true}">{{menuHijo.menu_hijo}}</button>
+            </div>
+        </div>
+    </div>
+</nav>

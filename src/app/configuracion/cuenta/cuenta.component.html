@@ -1,0 +1,137 @@
+<div class="content">
+    <div class="section-options text-center">
+        <button class="btn-bold" routerLink="/configuracion/cuentas/info">Información personal</button>
+        <button class="btn-bold" routerLink="/configuracion/cuentas/cuenta">Cuenta</button>
+    </div>
+    <div class="card">
+        <div class="card-header">
+          {{titleSection}}
+        </div>
+        <!-- <div *ngFor="let permisos of permisos">{{permisos}}</div> -->
+        <div class="card-body">
+            <form [formGroup]="formInfo" *ngIf="viewSection=='info'">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="label-mat-form">1er Nombre <span class="required">*</span></label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input readonly matInput formControlName="persona_nombre1">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">2do Nombre</label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input matInput formControlName="persona_nombre2">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">1er Apellido <span class="required">*</span></label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input readonly matInput formControlName="persona_apellido1">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">2do Apellido</label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input matInput formControlName="persona_apellido2">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">email <span class="required">*</span></label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input readonly matInput formControlName="persona_email">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Teléfono <span class="required">*</span></label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input matInput formControlName="persona_telefono" [mask]="maskphone">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Teléfono 2</label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input matInput formControlName="persona_telefono2" [mask]="maskphone">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Ocupacion</label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input matInput formControlName="persona_ocupacion">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Sexo <span class="required">*</span></label>
+                        <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                            <mat-select formControlName="persona_sexo">
+                                <mat-option value="">Seleccione..</mat-option>
+                                <mat-option [value]="sexo.codigo" *ngFor="let sexo of sexos">{{sexo.nombre}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Estado civil</label>
+                        <mat-form-field class="input-full-width col-md-12" appearance="outline">
+                            <mat-select formControlName="persona_estadocivil">
+                                <mat-option value="">Seleccione..</mat-option>
+                                <mat-option [value]="element.codigo" *ngFor="let element of estadoCivil">{{element.nombre}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Fecha Nacimiento</label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input disabled matInput [matDatepicker]="picker" formControlName="persona_fechanacimiento">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker disabled="false" #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 text-right">
+                        <button class="btn-bold text-right" (click)="submitInfo()">Guardar</button>
+                    </div>
+                </div>
+            </form>
+            <form [formGroup]="formCuenta" *ngIf="viewSection == 'cuenta'">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="info-text">Usuario desde: {{usuarioDesde}}</span>
+                    </div>
+                    <div class="col-md-6">
+                        <span class="info-text">Estado: {{usuarioEstado}}</span>
+                    </div>
+                    <div class="col-md-6 pt-2">
+                        <label class="label-mat-form">Usuario <span class="required">*</span></label>
+                        <mat-form-field appearance="outline" class="input-full-width">
+                            <input readonly matInput formControlName="usuario_username">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12 pt-2">
+                        <span class="title-inner">Cambiar Contraseña</span>
+                    </div>
+                    <span class="text-alert col-md-12">Las contraseñas deben tener mínimo 8 caracteres.</span>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Contraseña <span class="required">*</span></label>
+                        <mat-form-field class="input-full-width password-input col-md-12" appearance="outline">
+                            <input matInput [type]="hide ? 'password' : 'text'" required formControlName="usuario_password" autocomplete="off" >
+                            <a class="material-icons" *ngIf="hide" (click)="hide = !hide">visibility</a>
+                            <a class="material-icons" *ngIf="!hide" (click)="hide = !hide">visibility_off</a>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="label-mat-form">Confirmar contraseña <span class="required">*</span></label>
+                        <mat-form-field class="input-full-width password-input col-md-12" appearance="outline">
+                            <input matInput [type]="hideConfirm ? 'password': 'text'" required formControlName="usuario_rpassword" autocomplete="off" >
+                            <a class="material-icons" *ngIf="hideConfirm" (click)="hideConfirm = !hideConfirm">visibility</a>
+                            <a class="material-icons" *ngIf="!hideConfirm" (click)="hideConfirm = !hideConfirm">visibility_off</a>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button class="btn-bold" (click)="submitCuenta()">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="loading">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>
